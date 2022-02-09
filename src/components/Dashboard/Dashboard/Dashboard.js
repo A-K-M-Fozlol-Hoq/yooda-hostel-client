@@ -1,12 +1,15 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import AddStudent from '../AddStudent';
 import AddFood from '../AddFood';
 import ServeFood from '../ServeFood';
 import Menu from '../Menu';
+import AllFoods from '../../Utils/AllFoods';
 
 const Dashboard = (props) => {
   const { setIsLoggedIn } = props;
   const [showComponent, setShowComponent] = useState('addFood');
+  const [foods, setFoods] = useState([]);
+
   return (
     <div className="w-75 mx-auto mt-5 bg-secondary p-5 rounded">
       <Menu
@@ -15,7 +18,9 @@ const Dashboard = (props) => {
       ></Menu>
       <div className="bg-success mt-5 p-2 rounded text-white">
         {showComponent === 'addFood' ? (
-          <AddFood></AddFood>
+          <>
+            <AddFood foods={foods} setFoods={setFoods}></AddFood>
+          </>
         ) : (
           <>
             {showComponent === 'addStudent' ? (
@@ -24,6 +29,11 @@ const Dashboard = (props) => {
               <ServeFood></ServeFood>
             )}
           </>
+        )}
+      </div>
+      <div className="bg-success mt-5 p-2 rounded text-white">
+        {showComponent === 'addFood' && (
+          <AllFoods setFoods={setFoods} foods={foods}></AllFoods>
         )}
       </div>
     </div>
