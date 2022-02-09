@@ -35,7 +35,10 @@ const Dashboard = (props) => {
                 setAllStudents={setAllStudents}
               ></AddStudent>
             ) : (
-              <ServeFood></ServeFood>
+              <ServeFood
+                allStudents={allStudents}
+                setAllStudents={setAllStudents}
+              ></ServeFood>
             )}
           </>
         )}
@@ -50,6 +53,7 @@ const Dashboard = (props) => {
             setAllStudents={setAllStudents}
           ></AllStudents>
         )}
+        {showComponent === 'serveFood' && <h1>Good Luck!</h1>}
       </div>
     </div>
   );
