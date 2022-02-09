@@ -88,6 +88,27 @@ const AllFoods = (props) => {
   function closeModal() {
     setIsOpen(false);
   }
+  const deleteFood = (id, name) => {
+    fetch('http://localhost:4000/deleteFood', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        id,
+      }),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        console.log(data);
+        if (data.deletedCount === 1) {
+          alert(`Deleted  ${name} successfully!`);
+          window.location.reload();
+        } else {
+          alert('Failed to delete!');
+        }
+      });
+  };
   return (
     <div>
       <h1>All Foods</h1>
@@ -128,7 +149,14 @@ const AllFoods = (props) => {
             >
               edit
             </div>
-            <div className="btn btn-danger">delete</div>
+            <div
+              className="btn btn-danger"
+              onClick={() => {
+                deleteFood(food.id, food.name);
+              }}
+            >
+              delete
+            </div>
           </div>
         ))}
         <div className="bg-secondary">

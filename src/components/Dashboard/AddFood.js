@@ -34,6 +34,7 @@ const AddFood = (props) => {
       alert('Please enter food name and price');
     }
   };
+
   return (
     <div>
       <h1>AddFood</h1>
