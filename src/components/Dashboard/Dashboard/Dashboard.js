@@ -4,11 +4,17 @@ import AddFood from '../AddFood';
 import ServeFood from '../ServeFood';
 import Menu from '../Menu';
 import AllFoods from '../../Utils/AllFoods';
+import AllStudents from '../../Utils/AllStudents';
 
 const Dashboard = (props) => {
   const { setIsLoggedIn } = props;
-  const [showComponent, setShowComponent] = useState('addFood');
+  const [showComponent, setShowComponent] = useState(
+    sessionStorage.getItem('component')
+      ? sessionStorage.getItem('component')
+      : 'addFood'
+  );
   const [foods, setFoods] = useState([]);
+  const [allStudents, setAllStudents] = useState([]);
 
   return (
     <div className="w-75 mx-auto mt-5 bg-secondary p-5 rounded">
@@ -24,7 +30,10 @@ const Dashboard = (props) => {
         ) : (
           <>
             {showComponent === 'addStudent' ? (
-              <AddStudent></AddStudent>
+              <AddStudent
+                allStudents={allStudents}
+                setAllStudents={setAllStudents}
+              ></AddStudent>
             ) : (
               <ServeFood></ServeFood>
             )}
@@ -34,6 +43,12 @@ const Dashboard = (props) => {
       <div className="bg-success mt-5 p-2 rounded text-white">
         {showComponent === 'addFood' && (
           <AllFoods setFoods={setFoods} foods={foods}></AllFoods>
+        )}
+        {showComponent === 'addStudent' && (
+          <AllStudents
+            allStudents={allStudents}
+            setAllStudents={setAllStudents}
+          ></AllStudents>
         )}
       </div>
     </div>

@@ -18,19 +18,28 @@ const Menu = ({ setIsLoggedIn, setShowComponent }) => {
         }}
       >
         <div
-          onClick={() => setShowComponent('addFood')}
+          onClick={() => {
+            setShowComponent('addFood');
+            sessionStorage.setItem('component', 'addFood');
+          }}
           className="btn btn-primary"
         >
           Add Food
         </div>
         <div
-          onClick={() => setShowComponent('addStudent')}
+          onClick={() => {
+            setShowComponent('addStudent');
+            sessionStorage.setItem('component', 'addStudent');
+          }}
           className="btn btn-primary"
         >
           Add Student
         </div>
         <div
-          onClick={() => setShowComponent('serveFood')}
+          onClick={() => {
+            setShowComponent('serveFood');
+            sessionStorage.setItem('component', 'serveFood');
+          }}
           className="btn btn-primary"
         >
           Serve Food
