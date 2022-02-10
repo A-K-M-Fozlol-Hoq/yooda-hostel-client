@@ -28,7 +28,9 @@ const AllFoods = (props) => {
   const [foodName, setFoodName] = useState('');
   const [foodPrice, setFoodPrice] = useState(0);
   const [currentPage, setCurrentPage] = useState(0);
+  const [loading, setLoading] = useState(false);
   const loadFoodsFromDB = (currentPageToLoad) => {
+    setLoading(true);
     fetch('http://localhost:4000/getFoods', {
       method: 'POST',
       headers: {
@@ -40,9 +42,13 @@ const AllFoods = (props) => {
     })
       .then((res) => res.json())
       .then((data) => {
+        setLoading(false);
         setFoods(data);
       })
-      .catch((err) => console.log(err));
+      .catch((err) => {
+        console.log(err);
+        setLoading(false);
+      });
   };
   const updateFood = (e) => {
     e.preventDefault();
@@ -114,6 +120,11 @@ const AllFoods = (props) => {
       <h1>All Foods</h1>
       <hr />
       {/* table part */}
+      {loading && (
+        <div class="spinner-border text-primary" role="status">
+          <span class="sr-only">Loading...</span>
+        </div>
+      )}
       <div className="bg-secondary m-2 p-2 rounded text-center">
         <div
           className="bg-danger m-2 p-2 rounded"

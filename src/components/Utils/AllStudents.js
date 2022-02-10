@@ -82,7 +82,7 @@ const AllStudents = (props) => {
           // window.location.reload();
         });
     } else {
-      alert('Please enter name and  price to update');
+      alert('Please enter all information to update');
     }
   };
   useEffect(() => {

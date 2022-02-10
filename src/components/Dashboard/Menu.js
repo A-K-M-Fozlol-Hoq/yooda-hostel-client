@@ -1,6 +1,6 @@
 import React from 'react';
 
-const Menu = ({ setIsLoggedIn, setShowComponent }) => {
+const Menu = ({ setIsLoggedIn, setShowComponent, showComponent }) => {
   const handleLogout = () => {
     setIsLoggedIn(false);
     sessionStorage.setItem('isLoggedIn', false);
@@ -22,7 +22,9 @@ const Menu = ({ setIsLoggedIn, setShowComponent }) => {
             setShowComponent('addFood');
             sessionStorage.setItem('component', 'addFood');
           }}
-          className="btn btn-primary"
+          className={`btn btn-${
+            showComponent === 'addFood' ? 'danger' : 'primary'
+          }`}
         >
           Add Food
         </div>
@@ -31,7 +33,9 @@ const Menu = ({ setIsLoggedIn, setShowComponent }) => {
             setShowComponent('addStudent');
             sessionStorage.setItem('component', 'addStudent');
           }}
-          className="btn btn-primary"
+          className={`btn btn-${
+            showComponent === 'addStudent' ? 'danger' : 'primary'
+          }`}
         >
           Add Student
         </div>
@@ -40,7 +44,9 @@ const Menu = ({ setIsLoggedIn, setShowComponent }) => {
             setShowComponent('serveFood');
             sessionStorage.setItem('component', 'serveFood');
           }}
-          className="btn btn-primary"
+          className={`btn btn-${
+            showComponent === 'serveFood' ? 'danger' : 'primary'
+          }`}
         >
           Serve Food
         </div>

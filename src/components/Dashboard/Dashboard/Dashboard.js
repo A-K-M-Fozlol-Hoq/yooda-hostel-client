@@ -19,6 +19,7 @@ const Dashboard = (props) => {
   return (
     <div className="w-75 mx-auto mt-5 bg-secondary p-5 rounded">
       <Menu
+        showComponent={showComponent}
         setIsLoggedIn={setIsLoggedIn}
         setShowComponent={setShowComponent}
       ></Menu>

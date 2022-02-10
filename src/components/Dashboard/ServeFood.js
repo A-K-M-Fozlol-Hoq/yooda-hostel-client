@@ -13,8 +13,9 @@ const ServeFood = (props) => {
   const [showCompo, setShowCompo] = useState('table');
   const [date, setDate] = useState(Date.now());
   const [shift, setShift] = useState('');
-  const [status, setStatus] = useState('');
   const [foodItemList, setFoodItemList] = useState([]);
+  const [serveMessage, setServerMessage] = useState('');
+  const [serveStatus, setServeStatus] = useState('');
 
   const loadAllStudentsFromDB = (currentPageToLoad) => {
     fetch('http://localhost:4000/getStudents', {
@@ -72,6 +73,65 @@ const ServeFood = (props) => {
   };
   const serveFood = (e) => {
     e.preventDefault();
+    const id = `__serve_id_${Date.now()}_${+Math.floor(
+      Math.random() * 145465463345465768
+    )}`;
+    if (date && shift && foodItemList.length > 0) {
+      fetch('http://localhost:4000/isServed', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          id,
+          studentId: servingTo.id,
+          date,
+          shift,
+        }),
+      })
+        .then((res) => res.json())
+        .then((data) => {
+          console.log(data);
+          if (data) {
+            setServerMessage(
+              `Your already offered ${servingTo.name} that meal before!`
+            );
+            setServeStatus('alreadyServed');
+            setShowCompo('serveMessage');
+          } else {
+            fetch('http://localhost:4000/addServedFood', {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+              },
+              body: JSON.stringify({
+                id,
+                studentId: servingTo.id,
+                date,
+                shift,
+                status: 'served',
+                foodItemList,
+              }),
+            })
+              .then((res) => res.json())
+              .then((data) => {
+                console.log(data);
+                if (data) {
+                  setServerMessage(`Served ${servingTo.name} successfully!`);
+                  setServeStatus('success');
+                  setShowCompo('serveMessage');
+                } else {
+                  alert('failed to serve, please try again!');
+                  setServeStatus('failed');
+                }
+              })
+              .catch((err) => console.log(err));
+          }
+        })
+        .catch((err) => console.log(err));
+    } else {
+      alert('please enter date, shift and foods');
+    }
   };
   const filterFoodItemList = (food) => {
     setFoodItemList(foodItemList.filter((foodName) => foodName !== food));
@@ -335,6 +395,18 @@ const ServeFood = (props) => {
             </button>
           </form>
         </>
+      )}
+      {showCompo === 'serveMessage' && (
+        <div className="bg-secondary p-2 rounded m-2 text-center text-white">
+          <div
+            className="btn btn-danger"
+            onClick={() => setShowCompo('serveForm')}
+          >
+            Back
+          </div>
+          <h1>{serveStatus}</h1>
+          <p>{serveMessage}</p>
+        </div>
       )}
     </div>
   );
